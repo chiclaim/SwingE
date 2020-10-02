@@ -1,2 +1,2 @@
-# SwingE
-A Employee Manager System by Java Swing
+# A Employee Manager System by Java Swing
+
