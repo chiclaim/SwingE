@@ -1,25 +1,24 @@
 package database.practise;
 
-import database.practise.test.TableRenderDemo;
+import database.practise.ui.EmployeeManagerTab;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        JFrame frame=new JFrame("职工管理系统");
+        JFrame frame = new JFrame("职工管理系统");
 
-        JPanel panel= new JPanel(new GridLayout());
+        JPanel panel = new JPanel(new GridLayout());
         addTabs(panel);
         frame.add(panel);
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     private static JComponent makeTextPanel(String text) {
@@ -32,7 +31,7 @@ public class Main {
     }
 
 
-    private static void addTabs(JPanel panel){
+    private static void addTabs(JPanel panel) {
 
         JTabbedPane tabbedPane = new JTabbedPane();
         ImageIcon icon = null;//createImageIcon("/images/middle.gif");

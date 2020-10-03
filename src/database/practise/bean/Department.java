@@ -2,12 +2,12 @@ package database.practise.bean;
 
 public class Department {
     private int id;
-    private String e_name;
+    private String name;
     private Department parent;
 
-    public Department(int id, String e_name) {
+    public Department(int id, String name) {
         this.id = id;
-        this.e_name = e_name;
+        this.name = name;
     }
 
     public int getId() {
@@ -18,12 +18,12 @@ public class Department {
         this.id = id;
     }
 
-    public String getE_name() {
-        return e_name;
+    public String getName() {
+        return name;
     }
 
-    public void setE_name(String e_name) {
-        this.e_name = e_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Department getParent() {

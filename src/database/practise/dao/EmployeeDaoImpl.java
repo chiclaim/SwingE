@@ -15,7 +15,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
     @Override
     public int add(Employee data) {
         Object[] parameters = new Object[]{data.getName(), data.getNickname(), data.getBirthday(),
-                data.getGender(), data.getDepartment().getId(), data.getStaffLevel().getId()};
+                data.getSex(), data.getDepartment().getId(), data.getStaffLevel().getId()};
         return DBManager.get().executeUpdate("INSERT INTO employee (e_name, nickname,birthday,gender,department_id,staff_id) " +
                 "VALUES (?,?,?,?,?,?)", parameters);
     }
@@ -88,7 +88,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setName(rs.getString("e_name"));
                 employee.setNickname(rs.getString("nickname"));
                 employee.setBirthday(rs.getDate("birthday"));
-                employee.setGender(rs.getShort("gender") == 0 ? "男" : "女");
+                employee.setSex(rs.getShort("gender"));
                 employee.setDepartment(new Department(rs.getInt("did"), rs.getString("dname")));
                 employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
                 return employee;

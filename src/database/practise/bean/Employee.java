@@ -8,9 +8,13 @@ public class Employee {
     private String name;
     private String nickname;
     private Date birthday;
+    // for ui
     private String gender;
+    // for db
+    private int sex;
     private Department department;
     private Staff staffLevel;
+
 
     public int getId() {
         return id;
@@ -50,6 +54,7 @@ public class Employee {
 
     public void setGender(String gender) {
         this.gender = gender;
+        sex = "男".equals(gender) ? 1 : 0;
     }
 
     public Department getDepartment() {
@@ -66,5 +71,27 @@ public class Employee {
 
     public void setStaffLevel(Staff staffLevel) {
         this.staffLevel = staffLevel;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+        gender = (sex == 1 ? "男" : "女");
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", birthday=" + birthday +
+                ", gender='" + gender + '\'' +
+                ", department=" + department.getName() +
+                ", staffLevel=" + staffLevel.getName() +
+                '}';
     }
 }
