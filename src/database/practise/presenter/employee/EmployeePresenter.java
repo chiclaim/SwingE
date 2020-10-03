@@ -11,8 +11,11 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
 
     private IEmployeeContract.View view;
 
+    private IDao<Employee> employeeIDao;
+
     public EmployeePresenter(IEmployeeContract.View view) {
         this.view = view;
+        employeeIDao = new EmployeeDaoImpl();
     }
 
     @Override
@@ -20,7 +23,6 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
         new SwingWorker<Void, Employee>() {
             @Override
             protected Void doInBackground() {
-                IDao<Employee> employeeIDao = new EmployeeDaoImpl();
                 List<Employee> list = employeeIDao.getAll();
                 for (Employee employee : list) {
                     publish(employee);
@@ -35,6 +37,24 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
                 view.loadAllSuccess(chunks);
             }
 
+        }.execute();
+
+    }
+
+    @Override
+    public void updateEmployee(Employee employee) {
+        new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() {
+                int row = employeeIDao.update(employee);
+                publish(row);
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+                super.process(chunks);
+            }
         }.execute();
 
     }

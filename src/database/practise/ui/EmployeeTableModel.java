@@ -13,8 +13,11 @@ public class EmployeeTableModel extends AbstractTableModel {
 
     private List<Employee> list;
 
-    public EmployeeTableModel(List<Employee> list) {
+    private EmployeeTableModelCallback callback;
+
+    public EmployeeTableModel(List<Employee> list,EmployeeTableModelCallback callback) {
         this.list = list;
+        this.callback = callback;
     }
 
 
@@ -73,25 +76,34 @@ public class EmployeeTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0:
                 employee.setId(Integer.parseInt(aValue.toString()));
+                callback.updateEmployee(employee);
                 break;
             case 1:
                 employee.setName(String.valueOf(aValue));
+                callback.updateEmployee(employee);
                 break;
             case 2:
                 employee.setNickname(String.valueOf(aValue));
+                callback.updateEmployee(employee);
                 break;
             case 3:
                 employee.setBirthday((Date) aValue);
+                callback.updateEmployee(employee);
                 break;
             case 4:
                 employee.setGender(String.valueOf(aValue));
+                callback.updateEmployee(employee);
                 break;
             case 5:
                 employee.getDepartment().setName(String.valueOf(aValue));
+                callback.updateEmployee(employee);
                 break;
             case 6:
                 employee.getStaffLevel().setName(String.valueOf(aValue));
+                callback.updateEmployee(employee);
                 break;
         }
     }
+
+
 }

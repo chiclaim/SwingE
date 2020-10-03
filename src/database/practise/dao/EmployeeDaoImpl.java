@@ -29,7 +29,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
     @Override
     public int update(Employee data) {
         Object[] parameters = new Object[]{data.getName(), data.getNickname(), data.getBirthday(),
-                data.getGender(), data.getDepartment().getId(), data.getStaffLevel().getId(), data.getId()};
+                data.getSex(), data.getDepartment().getId(), data.getStaffLevel().getId(), data.getId()};
         return DBManager.get().executeUpdate("UPDATE employee SET e_name = ?,nickname = ?,birthday = ?,gender = ?," +
                 "department_id = ?,staff_id = ? WHERE id = ?", parameters);
     }
@@ -55,7 +55,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setName(rs.getString("e_name"));
                 employee.setNickname(rs.getString("nickname"));
                 employee.setBirthday(rs.getDate("birthday"));
-                employee.setGender(rs.getShort("gender") == 0 ? "男" : "女");
+                employee.setSex(rs.getShort("gender"));
                 employee.setDepartment(new Department(rs.getInt("did"), rs.getString("dname")));
                 employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
                 list.add(employee);
@@ -80,7 +80,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
         final Object[] parameters = new Object[]{key};
         try {
             conn = DBManager.get().getConnection();
-            ps = DBManager.getPS(conn, sql, null);
+            ps = DBManager.getPS(conn, sql, parameters);
             rs = ps.executeQuery();
             if (rs.next()) {
                 Employee employee = new Employee();
@@ -101,8 +101,4 @@ public class EmployeeDaoImpl implements IDao<Employee> {
         return null;
     }
 
-    public static void main(String[] args) {
-        List list = new EmployeeDaoImpl().getAll();
-        System.out.println(list.size());
-    }
 }

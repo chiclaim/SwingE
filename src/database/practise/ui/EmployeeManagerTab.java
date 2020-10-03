@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View {
+public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View, EmployeeTableModelCallback {
 
     private List<Employee> dataList = new ArrayList<>();
     private EmployeeTableModel employeeTableModel;
@@ -23,27 +23,22 @@ public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View
         super(new GridLayout(1, 0));
 
         presenter = new EmployeePresenter(this);
-        employeeTableModel = new EmployeeTableModel(dataList);
+        employeeTableModel = new EmployeeTableModel(dataList, this);
 
         JTable table = new JTable(employeeTableModel);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
 
-
-        //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
-
 
         // 文字居中展示
         columnTextCenter(table);
-
-        //Fiddle with the Sport column's cell editors/renderers.
+        // 男、女选项
         setUpGenderColumn(table, table.getColumnModel().getColumn(4));
 
-        //Add the scroll pane to this panel.
         add(scrollPane);
 
-        presenter.loadAll();;
+        presenter.loadAll();
     }
 
     private void columnTextCenter(JTable table) {
@@ -61,20 +56,15 @@ public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View
         for (int i = 0; i < count; i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
     }
-
 
     public void setUpGenderColumn(JTable table,
                                   TableColumn sportColumn) {
-        //Set up the editor for the sport cells.
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem("男");
         comboBox.addItem("女");
         sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
-        //Set up tool tips for the sport cells.
-        DefaultTableCellRenderer renderer =
-                new DefaultTableCellRenderer();
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
         renderer.setToolTipText("change gender");
         sportColumn.setCellRenderer(renderer);
@@ -86,4 +76,8 @@ public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View
         employeeTableModel.fireTableDataChanged();
     }
 
+    @Override
+    public void updateEmployee(Employee employee) {
+        presenter.updateEmployee(employee);
+    }
 }

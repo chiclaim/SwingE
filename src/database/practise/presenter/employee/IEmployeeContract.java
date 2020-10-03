@@ -9,12 +9,14 @@ public interface IEmployeeContract {
 
     interface Presenter {
         void loadAll();
-    }
 
+        void updateEmployee(Employee employee);
+    }
 
 
     interface View {
         void loadAllSuccess(List<Employee> list);
+
     }
 
 }
