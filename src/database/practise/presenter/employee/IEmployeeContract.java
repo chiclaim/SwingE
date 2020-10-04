@@ -8,14 +8,18 @@ import java.util.List;
 public interface IEmployeeContract {
 
     interface Presenter {
-        void loadAll();
+        void getList(Employee employee);
 
         void updateEmployee(Employee employee);
+
+        void deleteEmployee(Employee employee);
     }
 
 
     interface View {
         void loadAllSuccess(List<Employee> list);
+
+        void deleteEmployeeSuccess(Employee employee);
 
     }
 

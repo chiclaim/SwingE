@@ -1,6 +1,7 @@
 package database.practise.bean;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class Employee {
 
@@ -11,10 +12,9 @@ public class Employee {
     // for ui
     private String gender;
     // for db
-    private int sex;
+    private int sex = -1;
     private Department department;
     private Staff staffLevel;
-
 
     public int getId() {
         return id;
@@ -54,7 +54,8 @@ public class Employee {
 
     public void setGender(String gender) {
         this.gender = gender;
-        sex = "男".equals(gender) ? 1 : 0;
+        if ("男".equals(gender)) sex = 1;
+        if ("女".equals(gender)) sex = 0;
     }
 
     public Department getDepartment() {
@@ -79,7 +80,8 @@ public class Employee {
 
     public void setSex(int sex) {
         this.sex = sex;
-        gender = (sex == 1 ? "男" : "女");
+        if (sex == 0) gender = "女";
+        if (sex == 1) gender = "男";
     }
 
     @Override
@@ -93,5 +95,18 @@ public class Employee {
                 ", department=" + department.getName() +
                 ", staffLevel=" + staffLevel.getName() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

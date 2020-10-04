@@ -3,6 +3,7 @@ package database.practise.dao;
 import database.practise.bean.Department;
 import database.practise.bean.Employee;
 import database.practise.bean.Staff;
+import database.practise.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,19 +36,21 @@ public class EmployeeDaoImpl implements IDao<Employee> {
     }
 
     @Override
-    public List<Employee> getAll() {
+    public List<Employee> query(Employee param) {
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        final String sql = "SELECT e.id, e.e_name, e.nickname, e.birthday, e.gender, d.id did, d.d_name dname, s.id sid, s.s_name sname " +
-                "FROM employee e, department d, staff_level s WHERE e.department_id = d.id AND e.staff_id = s.id";
+        final StringBuilder sql = new StringBuilder("SELECT e.id, e.e_name, e.nickname, e.birthday, e.gender, d.id did, d.d_name dname, s.id sid, s.s_name sname " +
+                "FROM employee e, department d, staff_level s WHERE e.department_id = d.id AND e.staff_id = s.id ");
 
         List<Employee> list = new ArrayList<>();
+        Object[] parameters = convertToParams(sql, param);
+
         try {
             conn = DBManager.get().getConnection();
-            ps = DBManager.getPS(conn, sql, null);
+            ps = DBManager.getPS(conn, sql.toString(), parameters);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Employee employee = new Employee();
@@ -67,6 +70,40 @@ public class EmployeeDaoImpl implements IDao<Employee> {
         }
         return list;
     }
+
+    private Object[] convertToParams(StringBuilder builder, Employee employee) {
+        if (employee == null) return null;
+        List<Object> params = new ArrayList<>();
+        if (!StringUtils.isEmpty(employee.getName())) {
+            params.add(employee.getName());
+            builder.append(" AND e_name = ? ");
+        }
+        if (!StringUtils.isEmpty(employee.getNickname())) {
+            params.add(employee.getNickname());
+            builder.append(" AND nickname = ? ");
+        }
+        if (employee.getBirthday() != null) {
+            params.add(employee.getBirthday());
+            builder.append(" AND birthday = ? ");
+        }
+        if (employee.getSex() != -1) {
+            params.add(employee.getSex());
+            builder.append(" AND gender = ? ");
+        }
+        if (employee.getDepartment() != null && !StringUtils.isEmpty(employee.getDepartment().getName())) {
+            params.add(employee.getDepartment().getName());
+            builder.append(" AND d.id = ? ");
+        }
+        if (employee.getStaffLevel() != null && !StringUtils.isEmpty(employee.getStaffLevel().getName())) {
+            params.add(employee.getStaffLevel().getName());
+            builder.append(" AND s.id = ? ");
+        }
+        System.out.println(builder.toString());
+        System.out.println(params.size());
+
+        return params.toArray();
+    }
+
 
     @Override
     public Employee findById(Object key) {

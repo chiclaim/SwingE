@@ -15,7 +15,7 @@ public class Main {
         JPanel panel = new JPanel(new GridLayout());
         addTabs(panel);
         frame.add(panel);
-        frame.setSize(800, 800);
+        frame.setSize(800, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

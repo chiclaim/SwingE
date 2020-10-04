@@ -7,7 +7,7 @@ public interface IDao<T> {
     int add(T data);
     int remove(Object key);
     int update(T data);
-    List<T> getAll();
+    List<T> query(T data);
     T findById(Object key);
 
 }

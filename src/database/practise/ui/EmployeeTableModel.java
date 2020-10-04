@@ -15,7 +15,7 @@ public class EmployeeTableModel extends AbstractTableModel {
 
     private EmployeeTableModelCallback callback;
 
-    public EmployeeTableModel(List<Employee> list,EmployeeTableModelCallback callback) {
+    public EmployeeTableModel(List<Employee> list, EmployeeTableModelCallback callback) {
         this.list = list;
         this.callback = callback;
     }
@@ -46,7 +46,7 @@ public class EmployeeTableModel extends AbstractTableModel {
         Employee employee = list.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return employee.getId();
+                return employee.getId() == 0 ? "" : employee.getId();
             case 1:
                 return employee.getName();
             case 2:
@@ -56,8 +56,10 @@ public class EmployeeTableModel extends AbstractTableModel {
             case 4:
                 return employee.getGender();
             case 5:
+                if (employee.getDepartment() == null) return "";
                 return employee.getDepartment().getName();
             case 6:
+                if (employee.getStaffLevel() == null) return "";
                 return employee.getStaffLevel().getName();
         }
         return "";
@@ -71,8 +73,8 @@ public class EmployeeTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         super.setValueAt(aValue, rowIndex, columnIndex);
-        System.out.println(aValue + "rowIndex = " + rowIndex + " columnIndex = " + columnIndex);
         Employee employee = list.get(rowIndex);
+        System.out.println(aValue + "rowIndex = " + rowIndex + " columnIndex = " + columnIndex);
         switch (columnIndex) {
             case 0:
                 employee.setId(Integer.parseInt(aValue.toString()));
