@@ -63,7 +63,6 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
                 }
             }
         }.execute();
-
     }
 
     @Override
@@ -80,6 +79,28 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
                 super.done();
                 try {
                     if (get() > 0) view.deleteEmployeeSuccess(employee);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.showMessageDialog(e);
+                }
+            }
+        }.execute();
+
+    }
+
+    @Override
+    public void add(Employee employee) {
+        new SwingWorker<Integer, Integer>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return employeeIDao.add(employee);
+            }
+
+            @Override
+            protected void done() {
+                super.done();
+                try {
+                    if (get() > 0) view.addSuccess();
                 } catch (Exception e) {
                     e.printStackTrace();
                     view.showMessageDialog(e);

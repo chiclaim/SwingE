@@ -3,7 +3,7 @@ package database.practise.ui;
 import database.practise.base.BasePanel;
 import database.practise.bean.Department;
 import database.practise.bean.Employee;
-import database.practise.bean.Staff;
+import database.practise.bean.StaffLevel;
 import database.practise.presenter.employee.EmployeePresenter;
 import database.practise.presenter.employee.IEmployeeContract;
 import database.practise.utils.DialogUtils;
@@ -23,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 员工管理界面
+ */
 public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.View, EmployeeTableModelCallback {
 
 
@@ -32,9 +35,7 @@ public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.V
     private JTable table;
 
     public EmployeeManagerTab() {
-        //super(new GridLayout(1, 0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 
         presenter = new EmployeePresenter(this);
 
@@ -81,11 +82,7 @@ public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.V
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dataList.add(new Employee());
-                employeeTableModel.fireTableDataChanged();
-                table.setRowSelectionInterval(dataList.size() - 1, dataList.size() - 1);
-
-
+                presenter.add(buildEmployeeByField());
             }
         });
 
@@ -160,7 +157,7 @@ public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.V
         employee.setNickname(nickname);
         employee.setGender(gender);
         employee.setDepartment(new Department(0, depart));
-        employee.setStaffLevel(new Staff(0, staff));
+        employee.setStaffLevel(new StaffLevel(0, staff));
         if (!StringUtils.isEmpty(birthday)) {
             try {
                 Date date = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(birthday).getTime());
@@ -226,5 +223,10 @@ public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.V
     public void deleteEmployeeSuccess(Employee employee) {
         dataList.remove(employee);
         employeeTableModel.fireTableDataChanged();
+    }
+
+    @Override
+    public void addSuccess() {
+        presenter.getList(null);
     }
 }

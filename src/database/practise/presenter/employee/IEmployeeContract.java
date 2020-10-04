@@ -14,13 +14,15 @@ public interface IEmployeeContract {
         void updateEmployee(Employee employee);
 
         void deleteEmployee(Employee employee);
+
+        void add(Employee employee);
     }
 
 
     interface View extends BaseView {
         void loadAllSuccess(List<Employee> list);
-
         void deleteEmployeeSuccess(Employee employee);
+        void addSuccess();
 
     }
 

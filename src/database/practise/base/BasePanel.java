@@ -1,5 +1,6 @@
 package database.practise.base;
 
+import database.practise.exception.ClientException;
 import database.practise.utils.DialogUtils;
 
 import javax.swing.*;
@@ -23,8 +24,10 @@ public class BasePanel extends JPanel implements BaseView {
         if (e.getCause() != null) cause = e.getCause();
         if (cause instanceof SQLSyntaxErrorException) {
             return "SQL 语法错误 ~";
+        } else if (cause instanceof ClientException) {
+            return cause.getMessage();
         }
-        return e.getClass().getName();
+        return cause.getClass().getName();
     }
 
 }

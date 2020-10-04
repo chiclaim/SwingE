@@ -14,7 +14,7 @@ public class Employee {
     // for db
     private int sex = -1;
     private Department department;
-    private Staff staffLevel;
+    private StaffLevel staffLevel;
 
     public int getId() {
         return id;
@@ -66,11 +66,11 @@ public class Employee {
         this.department = department;
     }
 
-    public Staff getStaffLevel() {
+    public StaffLevel getStaffLevel() {
         return staffLevel;
     }
 
-    public void setStaffLevel(Staff staffLevel) {
+    public void setStaffLevel(StaffLevel staffLevel) {
         this.staffLevel = staffLevel;
     }
 

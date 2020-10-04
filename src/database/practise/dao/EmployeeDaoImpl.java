@@ -2,19 +2,49 @@ package database.practise.dao;
 
 import database.practise.bean.Department;
 import database.practise.bean.Employee;
-import database.practise.bean.Staff;
+import database.practise.bean.StaffLevel;
+import database.practise.exception.ClientException;
 import database.practise.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDaoImpl implements IDao<Employee> {
+
+    IDao<Department> departmentDao;
+    IDao<StaffLevel> staffLevelDao;
+
+    public EmployeeDaoImpl() {
+        departmentDao = new DepartmentDaoImpl();
+        staffLevelDao = new StaffLevelDaoImpl();
+    }
+
     @Override
     public int add(Employee data) throws Exception {
+
+        // 查询部门
+        if (data.getDepartment() != null && !StringUtils.isEmpty(data.getDepartment().getName())) {
+            List<Department> ds = departmentDao.query(new Department(data.getDepartment().getName()));
+            if (ds != null && !ds.isEmpty()) {
+                data.setDepartment(ds.get(0));
+            } else {
+                throw new ClientException("输入的部门不存在");
+            }
+        }
+
+        // 查询职级
+        if (data.getStaffLevel() != null && !StringUtils.isEmpty(data.getStaffLevel().getName())) {
+            List<StaffLevel> ss = staffLevelDao.query(new StaffLevel(data.getStaffLevel().getName()));
+            if (ss != null && !ss.isEmpty()) {
+                data.setStaffLevel(ss.get(0));
+            } else {
+                throw new ClientException("输入的职级不存在");
+            }
+        }
+
         Object[] parameters = new Object[]{data.getName(), data.getNickname(), data.getBirthday(),
                 data.getSex(), data.getDepartment().getId(), data.getStaffLevel().getId()};
         return DBManager.get().executeUpdate("INSERT INTO employee (e_name, nickname,birthday,gender,department_id,staff_id) " +
@@ -60,7 +90,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setBirthday(rs.getDate("birthday"));
                 employee.setSex(rs.getShort("gender"));
                 employee.setDepartment(new Department(rs.getInt("did"), rs.getString("dname")));
-                employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
+                employee.setStaffLevel(new StaffLevel(rs.getInt("sid"), rs.getString("sname")));
                 list.add(employee);
             }
         } finally {
@@ -69,7 +99,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
         return list;
     }
 
-    private Object[] convertToParams(StringBuilder builder, Employee employee) {
+    public Object[] convertToParams(StringBuilder builder, Employee employee) {
         if (employee == null) return null;
         List<Object> params = new ArrayList<>();
         if (!StringUtils.isEmpty(employee.getName())) {
@@ -125,7 +155,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setBirthday(rs.getDate("birthday"));
                 employee.setSex(rs.getShort("gender"));
                 employee.setDepartment(new Department(rs.getInt("did"), rs.getString("dname")));
-                employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
+                employee.setStaffLevel(new StaffLevel(rs.getInt("sid"), rs.getString("sname")));
                 return employee;
             }
         } finally {

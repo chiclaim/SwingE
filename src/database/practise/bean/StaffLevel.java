@@ -1,15 +1,20 @@
 package database.practise.bean;
 
-public class Staff {
+public class StaffLevel {
     private int id;
     private String name;
     private char type;
     private short level;
 
-    public Staff(int id, String name) {
+    public StaffLevel(int id, String name) {
         this.id = id;
         this.name = name;
     }
+
+    public StaffLevel(String name) {
+        this(0, name);
+    }
+
 
     public int getId() {
         return id;
