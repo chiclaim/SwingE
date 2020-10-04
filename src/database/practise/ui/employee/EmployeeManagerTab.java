@@ -93,7 +93,7 @@ public class EmployeeManagerTab extends BaseManagerTab<Employee>
         buildLabelField(p, "姓名: ", nameField = new JTextField(10));
         buildLabelField(p, "花名: ", nicknameField = new JTextField(10));
         buildLabelField(p, "性别: ", genderField = new JTextField(10));
-        buildLabelField(p, "出生日期: ", birthdayField = new JTextField(10));
+        buildLabelField(p, "生日: ", birthdayField = new JTextField(10));
         buildLabelField(p, "部门: ", departmentField = new JTextField(10));
         buildLabelField(p, "职级: ", staffLevelField = new JTextField(10));
         panel.add(p);

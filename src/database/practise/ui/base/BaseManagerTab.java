@@ -55,7 +55,7 @@ public abstract class BaseManagerTab<T> extends BasePanel
         presenter.getList(null);
     }
 
-    public void initTable(JTable table){
+    public void initTable(JTable table) {
 
     }
 
@@ -67,7 +67,7 @@ public abstract class BaseManagerTab<T> extends BasePanel
 
     public abstract void addViews(JPanel panel);
 
-    protected void resetInput(){
+    protected void resetInput() {
 
     }
 

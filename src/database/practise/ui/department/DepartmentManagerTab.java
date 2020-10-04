@@ -51,7 +51,7 @@ public class DepartmentManagerTab extends BaseManagerTab<Department>
 
     @Override
     public void addViews(JPanel panel) {
-        JPanel p = new JPanel(new GridLayout(1, 1));
+        JPanel p = new JPanel(new GridLayout(1, 21));
         buildLabelField(p, "部门名称: ", nameField = new JTextField(10));
         panel.add(p);
     }
