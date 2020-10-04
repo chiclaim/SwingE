@@ -14,7 +14,7 @@ import java.util.List;
 
 public class EmployeeDaoImpl implements IDao<Employee> {
     @Override
-    public int add(Employee data) {
+    public int add(Employee data) throws Exception {
         Object[] parameters = new Object[]{data.getName(), data.getNickname(), data.getBirthday(),
                 data.getSex(), data.getDepartment().getId(), data.getStaffLevel().getId()};
         return DBManager.get().executeUpdate("INSERT INTO employee (e_name, nickname,birthday,gender,department_id,staff_id) " +
@@ -22,13 +22,13 @@ public class EmployeeDaoImpl implements IDao<Employee> {
     }
 
     @Override
-    public int remove(Object key) {
+    public int remove(Object key) throws Exception {
         Object[] parameters = new Object[]{key};
         return DBManager.get().executeUpdate("DELETE FROM employee WHERE id = ?", parameters);
     }
 
     @Override
-    public int update(Employee data) {
+    public int update(Employee data) throws Exception {
         Object[] parameters = new Object[]{data.getName(), data.getNickname(), data.getBirthday(),
                 data.getSex(), data.getDepartment().getId(), data.getStaffLevel().getId(), data.getId()};
         return DBManager.get().executeUpdate("UPDATE employee SET e_name = ?,nickname = ?,birthday = ?,gender = ?," +
@@ -36,7 +36,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
     }
 
     @Override
-    public List<Employee> query(Employee param) {
+    public List<Employee> query(Employee param) throws Exception {
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -63,8 +63,6 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
                 list.add(employee);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             DBManager.get().close(rs, ps, conn);
         }
@@ -106,7 +104,7 @@ public class EmployeeDaoImpl implements IDao<Employee> {
 
 
     @Override
-    public Employee findById(Object key) {
+    public Employee findById(Object key) throws Exception {
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -130,8 +128,6 @@ public class EmployeeDaoImpl implements IDao<Employee> {
                 employee.setStaffLevel(new Staff(rs.getInt("sid"), rs.getString("sname")));
                 return employee;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             DBManager.get().close(rs, ps, conn);
         }

@@ -20,21 +20,24 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
 
     @Override
     public void getList(Employee employee) {
-        new SwingWorker<Void, Employee>() {
+        new SwingWorker<List<Employee>, Void>() {
             @Override
-            protected Void doInBackground() {
-                List<Employee> list = employeeIDao.query(employee);
-                for (Employee employee : list) {
-                    publish(employee);
-                }
-                return null;
+            protected List<Employee> doInBackground() throws Exception {
+                return employeeIDao.query(employee);
             }
 
             @Override
-            protected void process(List<Employee> chunks) {
-                super.process(chunks);
+            protected void done() {
+                super.done();
                 if (view == null) return;
-                view.loadAllSuccess(chunks);
+                try {
+                    List<Employee> list = get();
+                    view.loadAllSuccess(list);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.showMessageDialog(e);
+                }
+
             }
 
         }.execute();
@@ -43,17 +46,21 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
 
     @Override
     public void updateEmployee(Employee employee) {
-        new SwingWorker<Void, Integer>() {
+        new SwingWorker<Integer, Integer>() {
             @Override
-            protected Void doInBackground() {
-                int row = employeeIDao.update(employee);
-                publish(row);
-                return null;
+            protected Integer doInBackground() throws Exception {
+                return employeeIDao.update(employee);
             }
 
             @Override
-            protected void process(List<Integer> chunks) {
-                super.process(chunks);
+            protected void done() {
+                super.done();
+                try {
+                    get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.showMessageDialog(e);
+                }
             }
         }.execute();
 
@@ -61,18 +68,22 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
 
     @Override
     public void deleteEmployee(Employee employee) {
-        new SwingWorker<Void, Integer>() {
+        new SwingWorker<Integer, Integer>() {
             @Override
-            protected Void doInBackground() {
-                int row = employeeIDao.remove(employee.getId());
-                publish(row);
-                return null;
+            protected Integer doInBackground() throws Exception {
+                return employeeIDao.remove(employee.getId());
+
             }
 
             @Override
-            protected void process(List<Integer> chunks) {
-                super.process(chunks);
-                view.deleteEmployeeSuccess(employee);
+            protected void done() {
+                super.done();
+                try {
+                    if (get() > 0) view.deleteEmployeeSuccess(employee);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.showMessageDialog(e);
+                }
             }
         }.execute();
 

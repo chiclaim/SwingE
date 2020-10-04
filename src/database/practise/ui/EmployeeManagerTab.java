@@ -1,5 +1,6 @@
 package database.practise.ui;
 
+import database.practise.base.BasePanel;
 import database.practise.bean.Department;
 import database.practise.bean.Employee;
 import database.practise.bean.Staff;
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View, EmployeeTableModelCallback {
+public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.View, EmployeeTableModelCallback {
 
 
     private List<Employee> dataList = new ArrayList<>();
@@ -83,6 +84,7 @@ public class EmployeeManagerTab extends JPanel implements IEmployeeContract.View
                 dataList.add(new Employee());
                 employeeTableModel.fireTableDataChanged();
                 table.setRowSelectionInterval(dataList.size() - 1, dataList.size() - 1);
+
 
             }
         });

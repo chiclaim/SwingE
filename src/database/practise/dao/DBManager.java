@@ -76,7 +76,7 @@ public class DBManager {
      * @param parameters Parameters
      * @return effect row
      */
-    public int executeUpdate(String sql, Object[] parameters) {
+    public int executeUpdate(String sql, Object[] parameters) throws Exception {
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -84,12 +84,9 @@ public class DBManager {
             conn = getConnection();
             ps = getPS(conn, sql, parameters);
             return ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             close(null, ps, conn);
         }
-        return 0;
     }
 
 
@@ -100,19 +97,16 @@ public class DBManager {
      * @param parameters Parameters
      * @return effect row
      */
-    public int callProUpdate(String sql, Object[] parameters) {
+    public int callProUpdate(String sql, Object[] parameters) throws Exception{
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = getConnection();
             ps = getPC(conn, sql, parameters);
             return ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             close(null, ps, conn);
         }
-        return 0;
     }
 
 
