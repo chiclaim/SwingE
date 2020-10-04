@@ -5,7 +5,8 @@ public class Department {
     private String name;
     private Department parent;
 
-
+    public Department() {
+    }
     public Department(int id, String name) {
         this.id = id;
         this.name = name;

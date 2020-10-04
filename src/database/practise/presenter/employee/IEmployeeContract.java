@@ -1,28 +1,16 @@
 package database.practise.presenter.employee;
 
-import database.practise.base.BaseView;
 import database.practise.bean.Employee;
-
-import java.util.List;
+import database.practise.ui.base.IBaseManagerContract;
 
 
 public interface IEmployeeContract {
 
-    interface Presenter {
-        void getList(Employee employee);
-
-        void updateEmployee(Employee employee);
-
-        void deleteEmployee(Employee employee);
-
-        void add(Employee employee);
+    interface Presenter extends IBaseManagerContract.Presenter<Employee> {
     }
 
 
-    interface View extends BaseView {
-        void loadAllSuccess(List<Employee> list);
-        void deleteEmployeeSuccess(Employee employee);
-        void addSuccess();
+    interface View extends IBaseManagerContract.View<Employee> {
 
     }
 

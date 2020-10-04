@@ -1,7 +1,5 @@
 package database.practise.dao;
 
-import database.practise.bean.Employee;
-
 import java.util.List;
 
 public interface IDao<T> {
@@ -12,7 +10,6 @@ public interface IDao<T> {
     int remove(Object key) throws Exception;
     int update(T data) throws Exception;
     List<T> query(T data) throws Exception;
-    T findById(Object key) throws Exception;
     Object[] whereParams(StringBuilder builder, T data);
 
 }

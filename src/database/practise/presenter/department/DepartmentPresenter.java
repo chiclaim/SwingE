@@ -1,29 +1,29 @@
-package database.practise.presenter.employee;
+package database.practise.presenter.department;
 
-import database.practise.bean.Employee;
-import database.practise.dao.EmployeeDaoImpl;
+import database.practise.bean.Department;
+import database.practise.dao.DepartmentDaoImpl;
 import database.practise.dao.IDao;
 
 import javax.swing.*;
 import java.util.List;
 
-public class EmployeePresenter implements IEmployeeContract.Presenter {
+public class DepartmentPresenter implements IDepartmentContract.Presenter {
 
-    private IEmployeeContract.View view;
+    private IDepartmentContract.View view;
 
-    private IDao<Employee> employeeIDao;
+    private IDao<Department> departmentDao;
 
-    public EmployeePresenter(IEmployeeContract.View view) {
+    public DepartmentPresenter(IDepartmentContract.View view) {
         this.view = view;
-        employeeIDao = new EmployeeDaoImpl();
+        departmentDao = new DepartmentDaoImpl();
     }
 
     @Override
-    public void getList(Employee employee) {
-        new SwingWorker<List<Employee>, Void>() {
+    public void getList(Department department) {
+        new SwingWorker<List<Department>, Void>() {
             @Override
-            protected List<Employee> doInBackground() throws Exception {
-                return employeeIDao.query(employee);
+            protected List<Department> doInBackground() throws Exception {
+                return departmentDao.query(department);
             }
 
             @Override
@@ -31,7 +31,7 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
                 super.done();
                 if (view == null) return;
                 try {
-                    List<Employee> list = get();
+                    List<Department> list = get();
                     view.getListSuccess(list);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -45,12 +45,11 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
     }
 
     @Override
-    public void update(Employee employee) {
-        System.out.println("update:" + employee);
+    public void update(Department department) {
         new SwingWorker<Integer, Integer>() {
             @Override
             protected Integer doInBackground() throws Exception {
-                return employeeIDao.update(employee);
+                return departmentDao.update(department);
             }
 
             @Override
@@ -67,11 +66,11 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
     }
 
     @Override
-    public void delete(Employee employee) {
+    public void delete(Department department) {
         new SwingWorker<Integer, Integer>() {
             @Override
             protected Integer doInBackground() throws Exception {
-                return employeeIDao.remove(employee.getId());
+                return departmentDao.remove(department.getId());
 
             }
 
@@ -79,7 +78,7 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
             protected void done() {
                 super.done();
                 try {
-                    if (get() > 0) view.deleteSuccess(employee);
+                    if (get() > 0) view.deleteSuccess(department);
                 } catch (Exception e) {
                     e.printStackTrace();
                     view.showMessageDialog(e);
@@ -90,11 +89,11 @@ public class EmployeePresenter implements IEmployeeContract.Presenter {
     }
 
     @Override
-    public void add(Employee employee) {
+    public void add(Department department) {
         new SwingWorker<Integer, Integer>() {
             @Override
             protected Integer doInBackground() throws Exception {
-                return employeeIDao.add(employee);
+                return departmentDao.add(department);
             }
 
             @Override

@@ -1,10 +1,11 @@
 package database.practise;
 
-import database.practise.ui.EmployeeManagerTab;
+import database.practise.ui.department.DepartmentManagerTab;
+import database.practise.ui.employee.EmployeeManagerTab;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
 
 public class Main {
 
@@ -36,13 +37,11 @@ public class Main {
         JTabbedPane tabbedPane = new JTabbedPane();
         ImageIcon icon = null;//createImageIcon("/images/middle.gif");
 
-        //JComponent panel1 = makeTextPanel("员工管理");
         tabbedPane.addTab("员工管理", icon, new EmployeeManagerTab(),
                 "Does nothing");
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        JComponent panel2 = makeTextPanel("部门管理");
-        tabbedPane.addTab("部门管理", icon, panel2,
+        tabbedPane.addTab("部门管理", icon, new DepartmentManagerTab(),
                 "Does twice as much nothing");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 

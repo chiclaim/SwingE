@@ -12,17 +12,21 @@ import java.util.List;
 public class DepartmentDaoImpl implements IDao<Department> {
     @Override
     public int add(Department data) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{data.getName()};
+        return DBManager.get().executeUpdate("INSERT INTO department (d_name) " +
+                "VALUES (?)", parameters);
     }
 
     @Override
     public int remove(Object key) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{key};
+        return DBManager.get().executeUpdate("DELETE FROM department WHERE id = ?", parameters);
     }
 
     @Override
     public int update(Department data) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{data.getName(), data.getId()};
+        return DBManager.get().executeUpdate("UPDATE department SET d_name = ? WHERE id = ?", parameters);
     }
 
     @Override
@@ -32,7 +36,7 @@ public class DepartmentDaoImpl implements IDao<Department> {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        final StringBuilder sql = new StringBuilder("SELECT id, d_name FROM department ");
+        final StringBuilder sql = new StringBuilder("SELECT id, d_name FROM department");
 
         List<Department> list = new ArrayList<>();
         Object[] parameters = whereParams(sql, data);
@@ -62,9 +66,4 @@ public class DepartmentDaoImpl implements IDao<Department> {
         return params.toArray();
     }
 
-
-    @Override
-    public Department findById(Object key) throws Exception {
-        return null;
-    }
 }

@@ -1,6 +1,7 @@
-package database.practise.ui;
+package database.practise.ui.employee;
 
 import database.practise.bean.Employee;
+import database.practise.ui.callback.TableModelCallback;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
@@ -13,9 +14,9 @@ public class EmployeeTableModel extends AbstractTableModel {
 
     private List<Employee> list;
 
-    private EmployeeTableModelCallback callback;
+    private TableModelCallback<Employee> callback;
 
-    public EmployeeTableModel(List<Employee> list, EmployeeTableModelCallback callback) {
+    public EmployeeTableModel(List<Employee> list, TableModelCallback<Employee> callback) {
         this.list = list;
         this.callback = callback;
     }
@@ -74,35 +75,40 @@ public class EmployeeTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         super.setValueAt(aValue, rowIndex, columnIndex);
         Employee employee = list.get(rowIndex);
-        System.out.println(aValue + "rowIndex = " + rowIndex + " columnIndex = " + columnIndex);
         switch (columnIndex) {
             case 0:
                 employee.setId(Integer.parseInt(aValue.toString()));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 1:
+                if (aValue.equals(employee.getName())) return;
                 employee.setName(String.valueOf(aValue));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 2:
+                if (aValue.equals(employee.getNickname())) return;
                 employee.setNickname(String.valueOf(aValue));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 3:
+                if (aValue.equals(employee.getBirthday())) return;
                 employee.setBirthday((Date) aValue);
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 4:
+                if (aValue.equals(employee.getGender())) return;
                 employee.setGender(String.valueOf(aValue));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 5:
+                if (aValue.equals(employee.getDepartment().getName())) return;
                 employee.getDepartment().setName(String.valueOf(aValue));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
             case 6:
+                if (aValue.equals(employee.getStaffLevel().getName())) return;
                 employee.getStaffLevel().setName(String.valueOf(aValue));
-                callback.updateEmployee(employee);
+                callback.onUpdate(employee);
                 break;
         }
     }

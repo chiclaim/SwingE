@@ -1,4 +1,4 @@
-package database.practise.base;
+package database.practise.ui.base;
 
 public interface BaseView {
 

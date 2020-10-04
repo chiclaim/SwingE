@@ -162,36 +162,4 @@ public class EmployeeDaoImpl implements IDao<Employee> {
         return params.toArray();
     }
 
-
-    @Override
-    public Employee findById(Object key) throws Exception {
-
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        final String sql = "SELECT e.id, e.e_name, e.nickname, e.birthday, e.gender, d.id did, d.d_name dname, s.id sid, s.s_name sname " +
-                "FROM employee e, department d, staff_level s WHERE e.department_id = d.id AND e.staff_id = s.id AND e.id = ?";
-        final Object[] parameters = new Object[]{key};
-        try {
-            conn = DBManager.get().getConnection();
-            ps = DBManager.getPS(conn, sql, parameters);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                Employee employee = new Employee();
-                employee.setId(rs.getInt("id"));
-                employee.setName(rs.getString("e_name"));
-                employee.setNickname(rs.getString("nickname"));
-                employee.setBirthday(rs.getDate("birthday"));
-                employee.setSex(rs.getShort("gender"));
-                employee.setDepartment(new Department(rs.getInt("did"), rs.getString("dname")));
-                employee.setStaffLevel(new StaffLevel(rs.getInt("sid"), rs.getString("sname")));
-                return employee;
-            }
-        } finally {
-            DBManager.get().close(rs, ps, conn);
-        }
-        return null;
-    }
-
 }

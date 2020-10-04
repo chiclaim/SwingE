@@ -62,9 +62,4 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
         return params.toArray();
     }
 
-
-    @Override
-    public StaffLevel findById(Object key) throws Exception {
-        return null;
-    }
 }

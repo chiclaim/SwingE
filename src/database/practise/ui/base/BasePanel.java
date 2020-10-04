@@ -1,4 +1,4 @@
-package database.practise.base;
+package database.practise.ui.base;
 
 import database.practise.exception.ClientException;
 import database.practise.utils.DialogUtils;
