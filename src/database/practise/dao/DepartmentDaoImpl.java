@@ -35,7 +35,7 @@ public class DepartmentDaoImpl implements IDao<Department> {
         final StringBuilder sql = new StringBuilder("SELECT id, d_name FROM department ");
 
         List<Department> list = new ArrayList<>();
-        Object[] parameters = convertToParams(sql, data);
+        Object[] parameters = whereParams(sql, data);
 
         try {
             conn = DBManager.get().getConnection();
@@ -52,7 +52,7 @@ public class DepartmentDaoImpl implements IDao<Department> {
     }
 
     @Override
-    public Object[] convertToParams(StringBuilder builder, Department department) {
+    public Object[] whereParams(StringBuilder builder, Department department) {
         if (department == null) return null;
         List<Object> params = new ArrayList<>();
         if (!StringUtils.isEmpty(department.getName())) {

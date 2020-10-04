@@ -153,11 +153,19 @@ public class EmployeeManagerTab extends BasePanel implements IEmployeeContract.V
         String staff = staffLevelField.getText();
 
         Employee employee = new Employee();
-        employee.setName(name);
-        employee.setNickname(nickname);
+        if (!StringUtils.isEmpty(name)) {
+            employee.setName(name);
+        }
+        if(!StringUtils.isEmpty(nickname)) {
+            employee.setNickname(nickname);
+        }
         employee.setGender(gender);
-        employee.setDepartment(new Department(0, depart));
-        employee.setStaffLevel(new StaffLevel(0, staff));
+        if (!StringUtils.isEmpty(depart)) {
+            employee.setDepartment(new Department(0, depart));
+        }
+        if (!StringUtils.isEmpty(staff)) {
+            employee.setStaffLevel(new StaffLevel(0, staff));
+        }
         if (!StringUtils.isEmpty(birthday)) {
             try {
                 Date date = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(birthday).getTime());

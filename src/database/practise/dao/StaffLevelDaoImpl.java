@@ -35,7 +35,7 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
         final StringBuilder sql = new StringBuilder("SELECT id, s_name FROM staff_level ");
 
         List<StaffLevel> list = new ArrayList<>();
-        Object[] parameters = convertToParams(sql, data);
+        Object[] parameters = whereParams(sql, data);
 
         try {
             conn = DBManager.get().getConnection();
@@ -52,7 +52,7 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
     }
 
     @Override
-    public Object[] convertToParams(StringBuilder builder, StaffLevel staffLevel) {
+    public Object[] whereParams(StringBuilder builder, StaffLevel staffLevel) {
         if (staffLevel == null) return null;
         List<Object> params = new ArrayList<>();
         if (!StringUtils.isEmpty(staffLevel.getName())) {
