@@ -12,17 +12,21 @@ import java.util.List;
 public class StaffLevelDaoImpl implements IDao<StaffLevel> {
     @Override
     public int add(StaffLevel data) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{data.getName(), data.getType(), data.getLevel()};
+        return DBManager.get().executeUpdate("INSERT INTO staff_level (s_name, s_type, s_level) " +
+                "VALUES (?,?,?)", parameters);
     }
 
     @Override
     public int remove(Object key) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{key};
+        return DBManager.get().executeUpdate("DELETE FROM staff_level WHERE id = ?", parameters);
     }
 
     @Override
     public int update(StaffLevel data) throws Exception {
-        return 0;
+        Object[] parameters = new Object[]{data.getName(), data.getType(), data.getLevel(), data.getId()};
+        return DBManager.get().executeUpdate("UPDATE staff_level SET s_name = ?, s_type = ? , s_level = ? WHERE id = ?", parameters);
     }
 
     @Override
@@ -32,7 +36,7 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        final StringBuilder sql = new StringBuilder("SELECT id, s_name FROM staff_level ");
+        final StringBuilder sql = new StringBuilder("SELECT id, s_name, s_type, s_level FROM staff_level ");
 
         List<StaffLevel> list = new ArrayList<>();
         Object[] parameters = whereParams(sql, data);
@@ -43,6 +47,8 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
             rs = ps.executeQuery();
             while (rs.next()) {
                 StaffLevel staffLevel = new StaffLevel(rs.getInt("id"), rs.getString("s_name"));
+                staffLevel.setType(rs.getString("s_type"));
+                staffLevel.setLevel(rs.getShort("s_level"));
                 list.add(staffLevel);
             }
         } finally {
@@ -52,12 +58,27 @@ public class StaffLevelDaoImpl implements IDao<StaffLevel> {
     }
 
     @Override
-    public Object[] whereParams(StringBuilder builder, StaffLevel staffLevel) {
+    public Object[] whereParams(StringBuilder sb, StaffLevel staffLevel) {
         if (staffLevel == null) return null;
         List<Object> params = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
         if (!StringUtils.isEmpty(staffLevel.getName())) {
             params.add(staffLevel.getName());
-            builder.append(" WHERE s_name = ? ");
+            builder.append(" s_name = ?").append(AND);
+        }
+        if (!StringUtils.isEmpty(staffLevel.getType())) {
+            params.add(staffLevel.getType());
+            builder.append(" s_type = ?").append(AND);
+        }
+
+        if (staffLevel.getLevel() > 0) {
+            params.add(staffLevel.getLevel());
+            builder.append(" s_level = ?").append(AND);
+        }
+
+        if (builder.length() != 0) {
+            builder.delete(builder.length() - AND.length(), builder.length());
+            sb.append(" WHERE ").append(builder);
         }
         return params.toArray();
     }

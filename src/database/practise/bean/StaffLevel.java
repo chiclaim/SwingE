@@ -3,8 +3,11 @@ package database.practise.bean;
 public class StaffLevel {
     private int id;
     private String name;
-    private char type;
+    private String type;
     private short level;
+
+    public StaffLevel() {
+    }
 
     public StaffLevel(int id, String name) {
         this.id = id;
@@ -32,11 +35,11 @@ public class StaffLevel {
         this.name = name;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 

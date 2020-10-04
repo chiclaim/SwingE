@@ -2,6 +2,7 @@ package database.practise;
 
 import database.practise.ui.department.DepartmentManagerTab;
 import database.practise.ui.employee.EmployeeManagerTab;
+import database.practise.ui.stafflevel.StaffLevelManagerTab;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,19 +36,14 @@ public class Main {
     private static void addTabs(JPanel panel) {
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        ImageIcon icon = null;//createImageIcon("/images/middle.gif");
 
-        tabbedPane.addTab("员工管理", icon, new EmployeeManagerTab(),
-                "Does nothing");
+        tabbedPane.addTab("员工管理",  new EmployeeManagerTab());
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        tabbedPane.addTab("部门管理", icon, new DepartmentManagerTab(),
-                "Does twice as much nothing");
+        tabbedPane.addTab("部门管理", new DepartmentManagerTab());
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-        JComponent panel3 = makeTextPanel("职级管理");
-        tabbedPane.addTab("职级管理", icon, panel3,
-                "Still does nothing");
+        tabbedPane.addTab("职级管理", new StaffLevelManagerTab());
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
 
