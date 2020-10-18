@@ -53,7 +53,9 @@ public class EmployeeTableModel extends AbstractTableModel {
             case 2:
                 return employee.getNickname();
             case 3:
-                return employee.getBirthday();
+                // return employee.getBirthday() 默认的 render 不支持修改 Date，先使用 String，否则双击生日这一列不能编辑。
+                if (employee.getBirthday() == null) return "";
+                return employee.getBirthday().toString();
             case 4:
                 return employee.getGender();
             case 5:
@@ -91,8 +93,21 @@ public class EmployeeTableModel extends AbstractTableModel {
                 callback.onUpdate(employee);
                 break;
             case 3:
-                if (aValue.equals(employee.getBirthday())) return;
-                employee.setBirthday((Date) aValue);
+                if (employee.getBirthday() != null &&
+                        employee.getBirthday().toString().equals(aValue.toString())) return;
+                Date newDate;
+                if (aValue.toString().trim().length() == 0) {
+                    newDate = null;
+                } else {
+                    try {
+                        newDate = Date.valueOf(aValue.toString());
+                    } catch (Exception e) {
+                        //e.printStackTrace();
+                        callback.showMessageDialog("日期不合法");
+                        return;
+                    }
+                }
+                employee.setBirthday(newDate);
                 callback.onUpdate(employee);
                 break;
             case 4:

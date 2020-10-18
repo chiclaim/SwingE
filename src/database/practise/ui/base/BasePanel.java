@@ -27,7 +27,7 @@ public class BasePanel extends JPanel implements BaseView {
         } else if (cause instanceof ClientException) {
             return cause.getMessage();
         }
-        if (cause.getMessage().length() < 100) {
+        if (cause.getMessage() != null && cause.getMessage().length() < 100) {
             return cause.getMessage();
         }
         return cause.getClass().getName();
